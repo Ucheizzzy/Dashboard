@@ -31,10 +31,14 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::controller(AdminController::class)->group(function(){
+Route::middleware(['auth','role:admin'])->group(function(){
+ Route::controller(AdminController::class)->group(function(){
     Route::get('/admin/dashboard', 'admindashboard')->name('admin.dashboard');
     // talentcroft
     Route::get('/admin/talentcroft', 'talentcroftview')->name('talentcroft');
 
 
 });
+});
+
+
