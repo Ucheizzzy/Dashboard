@@ -1,8 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,13 +32,31 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+// Admin dashboard
 Route::middleware(['auth','role:admin'])->group(function(){
  Route::controller(AdminController::class)->group(function(){
     Route::get('/admin/dashboard', 'admindashboard')->name('admin.dashboard');
+    // adminlogout
+    Route::get('/admin/logout', 'adminlogout')->name('admin.logout');
+   
     // talentcroft
     Route::get('/admin/talentcroft', 'talentcroftview')->name('talentcroft');
+    // junebox
+    Route::get('/admin/junebox', 'juneboxview')->name('junebox');
+
+    // moneyrun
+    Route::get('/admin/moneyrun', 'moneyrunview')->name('moneyrun');
 
 
+});
+});
+ // adminlogin
+Route::get('/admin/login', [AdminController::class, 'adminlogin']);
+
+// User dashboard
+Route::middleware(['auth','role:user'])->group(function(){
+ Route::controller(UserController::class)->group(function(){
+    Route::get('/user/dashboard', 'userdashboard');
 });
 });
 
